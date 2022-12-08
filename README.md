@@ -5,6 +5,7 @@ As per McKinsey, 50% of the revenue of the Supply Chain is being impacted becaus
 
 The need of the hour is to build and establish a mechanism to the
 Suppliers based on the Climate friendly metrics they adhere to like:
+	
 	Greenhouse gas emission
 	Water use
 	Energy consumption and reduction
