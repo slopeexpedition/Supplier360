@@ -1,0 +1,3231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Search Suppliers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/css/main.css" />
+
+</head>
+
+<body>
+  <style>
+    label,
+    legend {
+      margin: 0 !important;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin-bottom: 15px !important;
+    }
+
+    input.btn {
+      float: right !important;
+    }
+
+    .expandable>legend:before {
+      content: '\25B8';
+      padding-right: 5px;
+    }
+
+    .expanded>legend:before {
+      content: '\25BE';
+    }
+
+    .modal-content {
+      /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+
+      /* To center horizontally */
+      margin: 0 auto;
+      pointer-events: all;
+    }
+  </style>
+  <div id="page-wrapper">
+    <header id="header" class="alt" style="background-color: black;">
+      <h1 style="margin-top: 10px;"><a href="Supplier_Landing.html"><img src="images/Logo.png" style="width:50%"></img>
+      </h1>
+      <nav id="nav">
+        <ul>
+          <li><a href="Supplier360_CentralWallet.html">Create Central Wallet</a></li>
+          <li>
+            <a href="#" class="icon solid fa-angle-down">Supplier</a>
+            <ul>
+              <li><a href="Supplier360_ManageSuppliers.html">Manage Suppliers</a></li>
+              <li><a href="Supplier360_SupplierMetrics.html">Supplier Metrics</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="icon solid fa-angle-down">Transactions</a>
+            <ul>
+              <li><a href="Supplier360_MakePayment.html">Transfer Funds</a></li>
+              <li><a href="Supplier360_DisbursePayout.html">Disburse Funds</a></li>
+            </ul>
+          </li>
+
+          <li><a href="Contact.html">Contact</a></li>
+          <!-- <li><a href="#" class="button">Sign In</a></li> -->
+        </ul>
+      </nav>
+    </header>
+  </div>
+  <form style="width: 50%;margin-left: 29px;margin-top: 2%;color: black;"></form>
+  <div class="container">
+
+    <select id="filtergridlist" style="margin-top: 84px;
+    width: 30%;
+    height: 30px;
+    margin-left: -100px;display:none;">
+      <option hidden>--Select filter--</option>
+      <option value="supplier">Show Supplier Parameters</option>
+      <option value="climate">Show Climate Parameters</option>
+    </select>
+    <div id="Grid" style="margin-left: -180px;margin-right: -179px;margin-top:80px"></div>
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin-left:50px !important">
+      <div class="modal-content" style="width:1250px;height:600px;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="width:1250px;height:600px;">
+          <iframe src="Supplier360_SupplierDashboards.html" width="1230" height=500"></iframe>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <br></br>
+  <footer id="footer">
+    <ul class="icons">
+      <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+      <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+      <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+      <li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+      <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+      <li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
+    </ul>
+    <ul class="copyright">
+      <li>&copy; Rapyd's Climate Fintech Hackathon. All rights reserved.</li>
+    </ul>
+  </footer>
+  <div id="res" class="alert"></div>
+  <script src="https://storage.googleapis.com/chart-api-db/assets/js/jquery.min.js"></script>
+  <script src="https://storage.googleapis.com/chart-api-db/assets/js/jquery.dropotron.min.js"></script>
+  <script src="https://storage.googleapis.com/chart-api-db/assets/js/jquery.scrollex.min.js"></script>
+  <script src="https://storage.googleapis.com/chart-api-db/assets/js/browser.min.js"></script>
+  <script src="https://storage.googleapis.com/chart-api-db/assets/js/breakpoints.min.js"></script>
+  <script src="https://storage.googleapis.com/chart-api-db/assets/js/util.js"></script>
+  <script src="https://storage.googleapis.com/chart-api-db/assets/js/main.js"></script>
+  <script type="text/javascript" src="https://storage.googleapis.com/chart-api-db/CDN/deps/underscore.js"></script>
+  <script type="text/javascript" src="https://storage.googleapis.com/chart-api-db/CDN/deps/opt/jsv.js"></script>
+  <script type="text/javascript" src="https://storage.googleapis.com/chart-api-db/CDN/lib/jsonform.js"></script>
+  <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
+  <link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+    crossorigin="anonymous"></script>
+
+  <script id="template" type="text/x-template">
+    <div>
+        <a href="#" onclick="">${SupplierName}</a>
+    </div>
+</script>
+
+  <script type="text/javascript">
+    var grid = null;
+    //  $(document).ready(()=>{
+    //   $('#exampleModal').modal('show');
+    //  })
+    function showMyModalSetTitle(myTitle) {
+
+      $('#exampleModalLabel').html(myTitle);
+
+      $('#exampleModal').modal('show');
+    }
+    function httpGet(theUrl) {
+
+      let xmlhttp;
+
+      if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+      } else { // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+
+      xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          return xmlhttp.responseText;
+        }
+      }
+      xmlhttp.open("GET", theUrl, false);
+      xmlhttp.send();
+
+      return xmlhttp.response;
+    }
+
+    $('form').jsonForm({
+      "schema": {
+        Category: {
+          type: 'string',
+          enum: [
+            'Technology',
+            'Logistics',
+            'Retail',
+            'Construction',
+            'Training',
+            'Software',
+            'Consulting',
+            'Marketing'
+
+          ]
+        },
+        SupplierName: {
+          "title": "Enter Supplier Name :",
+          "default": "*",
+          "type": "string",
+          "required": true
+        },
+        Country: {
+          type: 'string',
+          title: 'Country',
+          "required": true,
+          default: 'Any',
+          enum: ['Any', 'afghanistan', 'albania', 'algeria', 'american samoa', 'andorra', 'angola', 'anguilla', 'antigua and barbuda', 'argentina', 'armenia', 'aruba', 'australia', 'austria', 'azerbaijan', 'bahamas', 'bahrain', 'bangladesh', 'barbados', 'belarus', 'belgium', 'belize', 'benin', 'bermuda', 'bhutan', 'bolivia', 'bosnia and herzegovina', 'botswana', 'brazil', 'british virgin islands', 'brunei', 'bulgaria', 'burkina faso', 'burundi', 'cambodia', 'cameroon', 'canada', 'cape verde', 'caribbean netherlands', 'cayman islands', 'chad', 'chile', 'china', 'colombia', 'comoros', 'costa rica', 'croatia', 'cuba', 'curaçao', 'cyprus', 'czechia', 'côte d’ivoire', 'democratic republic of the congo', 'denmark', 'djibouti', 'dominica', 'dominican republic', 'ecuador', 'egypt', 'el salvador', 'equatorial guinea', 'estonia', 'ethiopia', 'faroe islands', 'fiji', 'finland', 'france', 'french guiana', 'french polynesia', 'gabon', 'gambia', 'georgia', 'germany', 'ghana', 'gibraltar', 'greece', 'greenland', 'grenada', 'guadeloupe', 'guam', 'guatemala', 'guernsey', 'guinea', 'guinea-bissau', 'guyana', 'haiti', 'honduras', 'hong kong', 'hungary', 'iceland', 'india', 'indonesia', 'iran', 'iraq', 'ireland', 'isle of man', 'israel', 'italy', 'jamaica', 'japan', 'jersey', 'jordan', 'kazakhstan', 'kenya', 'kiribati', 'kosovo', 'kuwait', 'kyrgyzstan', 'laos', 'latvia', 'lebanon', 'lesotho', 'liberia', 'libya', 'liechtenstein', 'lithuania', 'luxembourg', 'macau', 'macedonia', 'madagascar', 'malawi', 'malaysia', 'maldives', 'mali', 'malta', 'marshall islands', 'martinique', 'mauritania', 'mauritius', 'mayotte', 'mexico', 'moldova', 'monaco', 'mongolia', 'montenegro', 'montserrat', 'morocco', 'mozambique', 'myanmar', 'namibia', 'nepal', 'netherlands', 'netherlands antilles', 'new caledonia', 'new zealand', 'nicaragua', 'niger', 'nigeria', 'north korea', 'northern mariana islands', 'norway', 'oman', 'pakistan', 'palestine', 'panama', 'papua new guinea', 'paraguay', 'peru', 'philippines', 'poland', 'portugal', 'puerto rico', 'qatar', 'romania', 'russia', 'rwanda', 'réunion', 'saint kitts and nevis', 'saint lucia', 'saint pierre and miquelon', 'saint vincent and the grenadines', 'san marino', 'saudi arabia', 'senegal', 'serbia', 'seychelles', 'sierra leone', 'singapore', 'slovakia', 'slovenia', 'solomon islands', 'somalia', 'south africa', 'south korea', 'south sudan', 'spain', 'sri lanka', 'sudan', 'suriname', 'svalbard and jan mayen', 'swaziland', 'sweden', 'switzerland', 'syria', 'são tomé and príncipe', 'taiwan', 'tajikistan', 'tanzania', 'thailand', 'timor-leste', 'togo', 'trinidad and tobago', 'tunisia', 'turkey', 'turkmenistan', 'turks and caicos islands', 'tuvalu', 'uganda', 'ukraine', 'united arab emirates', 'united kingdom', 'united states', 'uruguay', 'uzbekistan', 'vanuatu', 'venezuela', 'vietnam', 'yemen', 'zambia', 'zimbabwe', 'Åland islands']
+        },
+        Function: {
+          "title": "Function Name :",
+          "type": "string",
+          "default": "information technology and services",
+          "required": true
+        },
+        Service: {
+          title: "Select Service  :",
+          default: 'Application Development',
+          "required": true,
+          type: 'string',
+          enum: [
+            'Mainframe Services',
+            'Application Development',
+            'Delivery',
+            'Wholesale',
+            'Builder',
+            'Tools',
+            'Office',
+            'SEO',
+            'Maintenance',
+            'Social Media'
+          ]
+        },
+
+        Technology_MinCostInUSD: {
+          "type": "integer",
+
+          "title": "Minimum Cost In USD :",
+          "default": 50000,
+          "minimum": 10000,
+          "maximum": 8500000
+        },
+        Technology_MaxCostInUSD: {
+          "type": "integer",
+
+          "title": "Max Cost In USD :",
+          "default": 3000000,
+          "minimum": 10000,
+
+          "maximum": 8500000
+        },
+        Technology_CostWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 30,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Technology_CostKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Technology_MinRating: {
+          "type": "integer",
+
+          "title": "Minimum Rating :",
+          "default": 1,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Technology_MaxRating: {
+          "type": "integer",
+
+          "title": "Maximum Rating :",
+          "default": 10,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Technology_RatingWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Technology_RatingKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Technology_MinDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Min Delivery In Days :",
+          "default": 15,
+          "minimum": 1,
+
+          "maximum": 270
+        },
+        Technology_MaxDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Max Delivery In Days :",
+          "default": 150,
+          "minimum": 1,
+
+          "maximum": 270
+        },
+        Technology_DeliveryWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Technology_DeliveryKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Technology_MinOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Minimum Fullfillment Percentage :",
+          "default": 60,
+          "minimum": 60,
+
+          "maximum": 100
+        },
+        Technology_MaxOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Maximum Fullfillment Percentage :",
+          "default": 90,
+          "minimum": 60,
+
+          "maximum": 100
+        },
+        Technology_FulfillmentWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Technology_FulfillmentKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Technology_MinNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Minimum Number Of Escalations :",
+          "default": 10,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Technology_MaxNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Maximum Number Of Escalations :",
+          "default": 100,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Technology_EscalationsWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 10,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Technology_EscalationsKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Logistics_MinCostInUSD: {
+          "type": "integer",
+
+          "title": "Minimum Cost In USD :",
+          "default": 5,
+          "minimum": 5,
+          "maximum": 500
+        },
+        Logistics_MaxCostInUSD: {
+          "type": "integer",
+
+          "title": "Max Cost In USD :",
+          "default": 500,
+          "minimum": 5,
+
+          "maximum": 500
+        },
+        Logistics_CostWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 30,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Logistics_CostKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Logistics_MinRating: {
+          "type": "integer",
+
+          "title": "Minimum Rating :",
+          "default": 1,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Logistics_MaxRating: {
+          "type": "integer",
+
+          "title": "Maximum Rating :",
+          "default": 10,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Logistics_RatingWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Logistics_RatingKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Logistics_MinDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Min Delivery In Days :",
+          "default": 15,
+          "minimum": 3,
+
+          "maximum": 21
+        },
+        Logistics_MaxDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Max Delivery In Days :",
+          "default": 21,
+          "minimum": 3,
+
+          "maximum": 21
+        },
+        Logistics_DeliveryWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Logistics_DeliveryKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Logistics_MinOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Minimum Fullfillment Percentage :",
+          "default": 90,
+          "minimum": 90,
+
+          "maximum": 100
+        },
+        Logistics_MaxOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Maximum Fullfillment Percentage :",
+          "default": 90,
+          "minimum": 90,
+
+          "maximum": 100
+        },
+        Logistics_FulfillmentWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Logistics_FulfillmentKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Logistics_MinNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Minimum Number Of Escalations :",
+          "default": 10,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Logistics_MaxNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Maximum Number Of Escalations :",
+          "default": 100,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Logistics_EscalationsWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 10,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Logistics_EscalationsKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Retail_MinCostInUSD: {
+          "type": "integer",
+
+          "title": "Minimum Cost In USD :",
+          "default": 5,
+          "minimum": 5,
+          "maximum": 2500
+        },
+        Retail_MaxCostInUSD: {
+          "type": "integer",
+
+          "title": "Max Cost In USD :",
+          "default": 1500,
+          "minimum": 5,
+
+          "maximum": 2500
+        },
+        Retail_CostWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 30,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Retail_CostKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Retail_MinRating: {
+          "type": "integer",
+
+          "title": "Minimum Rating :",
+          "default": 1,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Retail_MaxRating: {
+          "type": "integer",
+
+          "title": "Maximum Rating :",
+          "default": 10,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Retail_RatingWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Retail_RatingKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Retail_MinDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Min Warranty In Months :",
+          "default": 6,
+          "minimum": 3,
+
+          "maximum": 24
+        },
+        Retail_MaxDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Max Warranty In Months :",
+          "default": 21,
+          "minimum": 3,
+
+          "maximum": 24
+        },
+        Retail_DeliveryWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Retail_DeliveryKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Retail_MinOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Minimum Fullfillment Percentage :",
+          "default": 90,
+          "minimum": 90,
+
+          "maximum": 100
+        },
+        Retail_MaxOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Maximum Fullfillment Percentage :",
+          "default": 100,
+          "minimum": 90,
+
+          "maximum": 100
+        },
+        Retail_FulfillmentWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Retail_FulfillmentKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Retail_MinNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Minimum Number Of Escalations :",
+          "default": 10,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Retail_MaxNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Maximum Number Of Escalations :",
+          "default": 100,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Retail_EscalationsWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 10,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Retail_EscalationsKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Construction_MinCostInUSD: {
+          "type": "integer",
+
+          "title": "Minimum Cost In USD :",
+          "default": 50000,
+          "minimum": 10000,
+          "maximum": 8500000
+        },
+        Construction_MaxCostInUSD: {
+          "type": "integer",
+
+          "title": "Max Cost In USD :",
+          "default": 900000,
+          "minimum": 10000,
+
+          "maximum": 8500000
+        },
+        Construction_CostWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 30,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Construction_CostKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Construction_MinRating: {
+          "type": "integer",
+
+          "title": "Minimum Rating :",
+          "default": 1,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Construction_MaxRating: {
+          "type": "integer",
+
+          "title": "Maximum Rating :",
+          "default": 10,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Construction_RatingWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Construction_RatingKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Construction_MinDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Min Delivery In Days :",
+          "default": 15,
+          "minimum": 1,
+
+          "maximum": 270
+        },
+        Construction_MaxDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Max Delivery In Days :",
+          "default": 150,
+          "minimum": 1,
+
+          "maximum": 270
+        },
+        Construction_DeliveryWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Construction_DeliveryKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Construction_MinOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Minimum Fullfillment Percentage :",
+          "default": 60,
+          "minimum": 60,
+
+          "maximum": 100
+        },
+        Construction_MaxOnTimeFulfillment: {
+          "type": "integer",
+          "title": "Maximum Fullfillment Percentage :",
+          "default": 90,
+          "minimum": 60,
+
+          "maximum": 100
+        },
+        Construction_FulfillmentWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Construction_FulfillmentKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Construction_MinNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Minimum Number Of Escalations :",
+          "default": 10,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Construction_MaxNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Maximum Number Of Escalations :",
+          "default": 100,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Construction_EscalationsWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 10,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Construction_EscalationsKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Training_MinCostInUSD: {
+          "type": "integer",
+
+          "title": "Minimum Cost In USD :",
+          "default": 1000,
+          "minimum": 1000,
+          "maximum": 10000
+        },
+        Training_MaxCostInUSD: {
+          "type": "integer",
+
+          "title": "Max Cost In USD :",
+          "default": 3000,
+          "minimum": 1000,
+
+          "maximum": 10000
+        },
+        Training_CostWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 30,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Training_CostKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Training_MinRating: {
+          "type": "integer",
+
+          "title": "Minimum Rating :",
+          "default": 1,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Training_MaxRating: {
+          "type": "integer",
+
+          "title": "Maximum Rating :",
+          "default": 9,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Training_RatingWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Training_RatingKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Training_MinDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Min Delivery In Days :",
+          "default": 10,
+          "minimum": 3,
+
+          "maximum": 30
+        },
+        Training_MaxDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Max Delivery In Days :",
+          "default": 27,
+          "minimum": 3,
+
+          "maximum": 30
+        },
+        Training_DeliveryWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Training_DeliveryKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Training_MinOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Minimum Fullfillment Percentage :",
+          "default": 90,
+          "minimum": 90,
+
+          "maximum": 100
+        },
+        Training_MaxOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Maximum Fullfillment Percentage :",
+          "default": 100,
+          "minimum": 90,
+
+          "maximum": 100
+        },
+        Training_FulfillmentWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Training_FulfillmentKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Training_MinNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Minimum Number Of Escalations :",
+          "default": 60,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Training_MaxNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Maximum Number Of Escalations :",
+          "default": 90,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Training_EscalationsWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 10,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Training_EscalationsKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Software_MinCostInUSD: {
+          "type": "integer",
+
+          "title": "Minimum Cost In USD :",
+          "default": 50000,
+          "minimum": 10000,
+          "maximum": 850000
+        },
+        Software_MaxCostInUSD: {
+          "type": "integer",
+
+          "title": "Max Cost In USD :",
+          "default": 90000,
+          "minimum": 10000,
+
+          "maximum": 850000
+        },
+        Software_CostWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 30,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Software_CostKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Software_MinRating: {
+          "type": "integer",
+
+          "title": "Minimum Rating :",
+          "default": 1,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Software_MaxRating: {
+          "type": "integer",
+
+          "title": "Maximum Rating :",
+          "default": 10,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Software_RatingWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Software_RatingKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Software_MinDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Min Delivery In Days :",
+          "default": 15,
+          "minimum": 10,
+
+          "maximum": 150
+        },
+        Software_MaxDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Max Delivery In Days :",
+          "default": 150,
+          "minimum": 10,
+
+          "maximum": 150
+        },
+        Software_DeliveryWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Software_DeliveryKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Software_MinOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Minimum Fullfillment Percentage :",
+          "default": 60,
+          "minimum": 60,
+
+          "maximum": 100
+        },
+        Software_MaxOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Maximum Fullfillment Percentage :",
+          "default": 90,
+          "minimum": 60,
+
+          "maximum": 100
+        },
+        Software_FulfillmentWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Software_FulfillmentKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Software_MinNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Minimum Number Of Escalations :",
+          "default": 10,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Software_MaxNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Maximum Number Of Escalations :",
+          "default": 100,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Software_EscalationsWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 10,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Software_EscalationsKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Consulting_MinCostInUSD: {
+          "type": "integer",
+
+          "title": "Minimum Cost In USD :",
+          "default": 50000,
+          "minimum": 10000,
+          "maximum": 850000
+        },
+        Consulting_MaxCostInUSD: {
+          "type": "integer",
+
+          "title": "Max Cost In USD :",
+          "default": 90000,
+          "minimum": 10000,
+
+          "maximum": 850000
+        },
+        Consulting_CostWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 30,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Consulting_CostKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Consulting_MinRating: {
+          "type": "integer",
+
+          "title": "Minimum Rating :",
+          "default": 1,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Consulting_MaxRating: {
+          "type": "integer",
+
+          "title": "Maximum Rating :",
+          "default": 10,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Consulting_RatingWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Consulting_RatingKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Consulting_MinDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Min Delivery In Days :",
+          "default": 15,
+          "minimum": 10,
+
+          "maximum": 150
+        },
+        Consulting_MaxDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Max Delivery In Days :",
+          "default": 150,
+          "minimum": 10,
+
+          "maximum": 150
+        },
+        Consulting_DeliveryWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Consulting_DeliveryKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Consulting_MinOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Minimum Fullfillment Percentage :",
+          "default": 60,
+          "minimum": 60,
+
+          "maximum": 100
+        },
+        Consulting_MaxOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Maximum Fullfillment Percentage :",
+          "default": 90,
+          "minimum": 60,
+
+          "maximum": 100
+        },
+        Consulting_FulfillmentWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Consulting_FulfillmentKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Consulting_MinNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Minimum Number Of Escalations :",
+          "default": 10,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Consulting_MaxNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Maximum Number Of Escalations :",
+          "default": 100,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Consulting_EscalationsWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 10,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Consulting_EscalationsKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Marketing_MinCostInUSD: {
+          "type": "integer",
+
+          "title": "Minimum Cost In USD :",
+          "default": 50000,
+          "minimum": 10000,
+          "maximum": 850000
+        },
+        Marketing_MaxCostInUSD: {
+          "type": "integer",
+
+          "title": "Max Cost In USD :",
+          "default": 90000,
+          "minimum": 10000,
+
+          "maximum": 850000
+        },
+        Marketing_CostWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 30,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Marketing_CostKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Marketing_MinRating: {
+          "type": "integer",
+
+          "title": "Minimum Rating :",
+          "default": 1,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Marketing_MaxRating: {
+          "type": "integer",
+
+          "title": "Maximum Rating :",
+          "default": 10,
+          "minimum": 1,
+
+          "maximum": 10
+        },
+        Marketing_RatingWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Marketing_RatingKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Marketing_MinDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Min Delivery In Days :",
+          "default": 15,
+          "minimum": 10,
+
+          "maximum": 150
+        },
+        Marketing_MaxDeliveryInDays: {
+          "type": "integer",
+
+          "title": "Max Delivery In Days :",
+          "default": 150,
+          "minimum": 10,
+
+          "maximum": 150
+        },
+        Marketing_DeliveryWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Marketing_DeliveryKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Marketing_MinOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Minimum Fullfillment Percentage :",
+          "default": 60,
+          "minimum": 60,
+
+          "maximum": 100
+        },
+        Marketing_MaxOnTimeFulfillment: {
+          "type": "integer",
+
+          "title": "Maximum Fullfillment Percentage :",
+          "default": 90,
+          "minimum": 60,
+
+          "maximum": 100
+        },
+        Marketing_FulfillmentWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Marketing_FulfillmentKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Marketing_MinNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Minimum Number Of Escalations :",
+          "default": 10,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Marketing_MaxNumberOfEscalations: {
+          "type": "integer",
+
+          "title": "Maximum Number Of Escalations :",
+          "default": 100,
+          "minimum": 10,
+
+          "maximum": 100
+        },
+        Marketing_EscalationsWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 10,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Marketing_EscalationsKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Climate_MinCostInUSD: {
+          "type": "number",
+
+          "title": "Minimum Greenhouse gas emission:",
+          "default": 0.5,
+          "minimum": 0,
+          "maximum": 100
+        },
+        Climate_MaxCostInUSD: {
+          "type": "number",
+
+          "title": "Max Greenhouse gas emission:",
+          "default": 3,
+          "minimum": 1,
+
+          "maximum": 100
+        },
+        Climate_CostWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 30,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Climate_CostKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Climate_MinRating: {
+          "type": "number",
+
+          "title": "Minimum Water use :",
+          "default": 0.5,
+          "minimum": 0,
+
+          "maximum": 100
+        },
+        Climate_MaxRating: {
+          "type": "number",
+
+          "title": "Maximum Water use :",
+          "default": 3,
+          "minimum": 1,
+
+          "maximum": 100
+        },
+        Climate_RatingWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Climate_RatingKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Climate_MinDeliveryInDays: {
+          "type": "number",
+
+          "title": "Min Energy consumption :",
+          "default": 0.5,
+          "minimum": 0,
+
+          "maximum": 100
+        },
+        Climate_MaxDeliveryInDays: {
+          "type": "number",
+
+          "title": "Max Energy consumption :",
+          "default": 3,
+          "minimum": 1,
+
+          "maximum": 100
+        },
+        Climate_DeliveryWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Climate_DeliveryKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Climate_MinOnTimeFulfillment: {
+          "type": "number",
+
+          "title": "Minimum Recycling Rate :",
+          "default": 0.5,
+          "minimum": 0,
+
+          "maximum": 100
+        },
+        Climate_MaxOnTimeFulfillment: {
+          "type": "number",
+
+          "title": "Maximum Recycling Rate :",
+          "default": 3,
+          "minimum": 1,
+
+          "maximum": 100
+        },
+        Climate_FulfillmentWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 20,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Climate_FulfillmentKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        },
+        Climate_MinNumberOfEscalations: {
+          "type": "number",
+
+          "title": "Minimum Carbon offsetting :",
+          "default": 0.5,
+          "minimum": 0,
+
+          "maximum": 100
+        },
+        Climate_MaxNumberOfEscalations: {
+          "type": "number",
+
+          "title": "Maximum Carbon offsetting :",
+          "default": 3,
+          "minimum": 0,
+
+          "maximum": 100
+        },
+        Climate_EscalationsWeightage: {
+          "type": "integer",
+          "title": "Weightage Percentage",
+          "default": 10,
+          "minimum": 0,
+          "exclusiveMinimum": true,
+          "maximum": 100
+        },
+        Climate_EscalationsKPIIndicator: {
+          "type": "string",
+          "title": "KPI Indicator",
+          "enum": ["The larger, the better", "The lesser, the better"]
+        }
+      },
+      "form": [
+        {
+          "type": "fieldset",
+          "title": "Select Supplier  Parameters",
+          "expandable": true,
+          "items": [
+            {
+              "key": "SupplierName"
+            },
+            {
+              "key": "Country"
+            },
+            {
+              "key": "Function"
+            },
+            {
+              "key": "Service"
+            }
+          ]
+        },
+        {
+          "type": "selectfieldset",
+          "key": "Category",
+          "title": "Select Category",
+          "items": [
+            {
+              "type": "fieldset",
+              "title": "Technology Parameters",
+              "expandable": false,
+              "items": [
+                {
+                  "type": "fieldset",
+                  "title": "Price Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Technology_MinCostInUSD",
+                      "type": "range",
+                      "step": 1000,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_MaxCostInUSD",
+                      "type": "range",
+                      "step": 1000,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_CostWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_CostKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Rating Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Technology_MinRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_MaxRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_RatingWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_RatingKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Select Delivery Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Technology_MinDeliveryInDays",
+                      "type": "range",
+                      "step": 10,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_MaxDeliveryInDays",
+                      "type": "range",
+                      "step": 10,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_DeliveryWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_DeliveryKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Fulfilment Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Technology_MinOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_MaxOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_FulfillmentWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_FulfillmentKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Escalation Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Technology_MinNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_MaxNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_EscalationsWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Technology_EscalationsKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "Logistics Parameters",
+              "expandable": false,
+              "items": [
+                {
+                  "type": "fieldset",
+                  "title": "Price Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Logistics_MinCostInUSD",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_MaxCostInUSD",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_CostWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_CostKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Rating Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Logistics_MinRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_MaxRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_RatingWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_RatingKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Select Delivery Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Logistics_MinDeliveryInDays",
+                      "type": "range",
+                      "step": 3,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_MaxDeliveryInDays",
+                      "type": "range",
+                      "step": 3,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_DeliveryWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_DeliveryKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Fulfilment Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Logistics_MinOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_MaxOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_FulfillmentWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_FulfillmentKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Escalation Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Logistics_MinNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_MaxNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_EscalationsWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Logistics_EscalationsKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "Retail Parameters",
+              "expandable": false,
+              "items": [
+                {
+                  "type": "fieldset",
+                  "title": "Price Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Retail_MinCostInUSD",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_MaxCostInUSD",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_CostWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_CostKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Rating Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Retail_MinRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_MaxRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_RatingWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_RatingKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Select Warranty Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Retail_MinDeliveryInDays",
+                      "type": "range",
+                      "step": 3,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_MaxDeliveryInDays",
+                      "type": "range",
+                      "step": 3,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_DeliveryWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_DeliveryKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Fulfilment Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Retail_MinOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_MaxOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_FulfillmentWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_FulfillmentKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Escalation Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Retail_MinNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_MaxNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_EscalationsWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Retail_EscalationsKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "Construction Parameters",
+              "expandable": false,
+              "items": [
+                {
+                  "type": "fieldset",
+                  "title": "Price Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Construction_MinCostInUSD",
+                      "type": "range",
+                      "step": 1000,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_MaxCostInUSD",
+                      "type": "range",
+                      "step": 1000,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_CostWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_CostKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Rating Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Construction_MinRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_MaxRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_RatingWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_RatingKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Select Delivery Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Construction_MinDeliveryInDays",
+                      "type": "range",
+                      "step": 10,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_MaxDeliveryInDays",
+                      "type": "range",
+                      "step": 10,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_DeliveryWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_DeliveryKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Fulfilment Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Construction_MinOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_MaxOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_FulfillmentWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_FulfillmentKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Escalation Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Construction_MinNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_MaxNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_EscalationsWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Construction_EscalationsKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                }
+
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "Training Parameters",
+              "expandable": false,
+              "items": [
+                {
+                  "type": "fieldset",
+                  "title": "Price Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Training_MinCostInUSD",
+                      "type": "range",
+                      "step": 1000,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_MaxCostInUSD",
+                      "type": "range",
+                      "step": 1000,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_CostWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_CostKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Rating Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Training_MinRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_MaxRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_RatingWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_RatingKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Select Delivery Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Training_MinDeliveryInDays",
+                      "type": "range",
+                      "step": 3,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_MaxDeliveryInDays",
+                      "type": "range",
+                      "step": 3,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_DeliveryWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_DeliveryKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Fulfilment Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Training_MinOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_MaxOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_FulfillmentWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_FulfillmentKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Escalation Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Training_MinNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_MaxNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_EscalationsWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Training_EscalationsKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "Software Parameters",
+              "expandable": false,
+              "items": [
+                {
+                  "type": "fieldset",
+                  "title": "Price Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Software_MinCostInUSD",
+                      "type": "range",
+                      "step": 1000,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_MaxCostInUSD",
+                      "type": "range",
+                      "step": 1000,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_CostWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_CostKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Rating Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Software_MinRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_MaxRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_RatingWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_RatingKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Select Delivery Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Software_MinDeliveryInDays",
+                      "type": "range",
+                      "step": 10,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_MaxDeliveryInDays",
+                      "type": "range",
+                      "step": 10,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_DeliveryWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_DeliveryKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Fulfilment Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Software_MinOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_MaxOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_FulfillmentWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_FulfillmentKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Escalation Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Software_MinNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_MaxNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_EscalationsWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Software_EscalationsKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "Consulting Parameters",
+              "expandable": false,
+              "items": [
+                {
+                  "type": "fieldset",
+                  "title": "Price Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Consulting_MinCostInUSD",
+                      "type": "range",
+                      "step": 1000,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_MaxCostInUSD",
+                      "type": "range",
+                      "step": 1000,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_CostWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_CostKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Rating Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Consulting_MinRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_MaxRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_RatingWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_RatingKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Select Delivery Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Consulting_MinDeliveryInDays",
+                      "type": "range",
+                      "step": 10,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_MaxDeliveryInDays",
+                      "type": "range",
+                      "step": 10,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_DeliveryWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_DeliveryKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Fulfilment Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Consulting_MinOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_MaxOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_FulfillmentWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_FulfillmentKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Escalation Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Consulting_MinNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_MaxNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_EscalationsWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Consulting_EscalationsKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "Marketing Parameters",
+              "expandable": false,
+              "items": [
+                {
+                  "type": "fieldset",
+                  "title": "Price Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Marketing_MinCostInUSD",
+                      "type": "range",
+                      "step": 1000,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_MaxCostInUSD",
+                      "type": "range",
+                      "step": 1000,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_CostWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_CostKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Rating Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Marketing_MinRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_MaxRating",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_RatingWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_RatingKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Select Delivery Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Marketing_MinDeliveryInDays",
+                      "type": "range",
+                      "step": 10,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_MaxDeliveryInDays",
+                      "type": "range",
+                      "step": 10,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_DeliveryWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_DeliveryKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Fulfilment Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Marketing_MinOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_MaxOnTimeFulfillment",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_FulfillmentWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_FulfillmentKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "title": "Escalation Parameters",
+                  "expandable": true,
+                  "items": [
+                    {
+                      "key": "Marketing_MinNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_MaxNumberOfEscalations",
+                      "type": "range",
+                      "step": 5,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_EscalationsWeightage",
+                      "type": "range",
+                      "step": 1,
+                      "indicator": true
+                    },
+                    {
+                      "key": "Marketing_EscalationsKPIIndicator",
+                      "type": "radiobuttons",
+                      "activeClass": "btn-success"
+                    }
+                  ]
+                }
+
+              ]
+            }
+          ]
+        },
+        {
+          "type": "fieldset",
+          "title": "Climate Parameters",
+          "expandable": false,
+          "items": [
+            {
+              "type": "fieldset",
+              "title": "Greenhouse gas emission Parameters",
+              "expandable": true,
+              "items": [
+                {
+                  "key": "Climate_MinCostInUSD",
+                  "type": "range",
+                  "step": 0.5,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_MaxCostInUSD",
+                  "type": "range",
+                  "step": 0.5,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_CostWeightage",
+                  "type": "range",
+                  "step": 1,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_CostKPIIndicator",
+                  "type": "radiobuttons",
+                  "activeClass": "btn-success"
+                }
+
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "Water use Parameters",
+              "expandable": true,
+              "items": [
+                {
+                  "key": "Climate_MinRating",
+                  "type": "range",
+                  "step": 0.5,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_MaxRating",
+                  "type": "range",
+                  "step": 0.5,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_RatingWeightage",
+                  "type": "range",
+                  "step": 1,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_RatingKPIIndicator",
+                  "type": "radiobuttons",
+                  "activeClass": "btn-success"
+                }
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "Select Energy consumption Parameters",
+              "expandable": true,
+              "items": [
+                {
+                  "key": "Climate_MinDeliveryInDays",
+                  "type": "range",
+                  "step": 0.5,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_MaxDeliveryInDays",
+                  "type": "range",
+                  "step": 0.5,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_DeliveryWeightage",
+                  "type": "range",
+                  "step": 1,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_DeliveryKPIIndicator",
+                  "type": "radiobuttons",
+                  "activeClass": "btn-success"
+                }
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "Recycling Rate Parameters",
+              "expandable": true,
+              "items": [
+                {
+                  "key": "Climate_MinOnTimeFulfillment",
+                  "type": "range",
+                  "step": 0.5,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_MaxOnTimeFulfillment",
+                  "type": "range",
+                  "step": 0.5,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_FulfillmentWeightage",
+                  "type": "range",
+                  "step": 1,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_FulfillmentKPIIndicator",
+                  "type": "radiobuttons",
+                  "activeClass": "btn-success"
+                }
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "Carbon offsetting Parameters",
+              "expandable": true,
+              "items": [
+                {
+                  "key": "Climate_MinNumberOfEscalations",
+                  "type": "range",
+                  "step": 0.5,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_MaxNumberOfEscalations",
+                  "type": "range",
+                  "step": 0.5,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_EscalationsWeightage",
+                  "type": "range",
+                  "step": 1,
+                  "indicator": true
+                },
+                {
+                  "key": "Climate_EscalationsKPIIndicator",
+                  "type": "radiobuttons",
+                  "activeClass": "btn-success"
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          "type": "actions",
+          "items": [
+            {
+              "type": "submit",
+              "title": "Submit"
+            }
+          ]
+        }
+      ],
+      onSubmit: function (errors, values) {
+        if (errors) {
+          debugger
+          $('#res').html('<p>Please fill required fields!</p>');
+        }
+        else {
+          $("#spinner").show();
+
+          var paramsObj = {};
+          paramsObj.type = "MongodbData";
+          paramsObj.database = "Industry";
+          paramsObj.collection = "Metrics1";
+          paramsObj.queryType = "join";
+          var record = {};
+
+          record.Category = values.Category;
+          record.SupplierName = values.SupplierName;
+          record.Country = values.Country;
+          record.Function = values.Function;
+          record.Service = values.Service;
+
+          record.MinCostInUSD = eval("values." + values.Category + "_MinCostInUSD");
+          record.MaxCostInUSD = eval("values." + values.Category + "_MaxCostInUSD");
+          record.CostWeightage = eval("values." + values.Category + "_CostWeightage");
+          record.CostKPIIndicator = eval("values." + values.Category + "_CostKPIIndicator");
+
+
+          record.MinRating = eval("values." + values.Category + "_MinRating");
+          record.MaxRating = eval("values." + values.Category + "_MaxRating");
+          record.RatingWeightage = eval("values." + values.Category + "_RatingWeightage");
+          record.RatingKPIIndicator = eval("values." + values.Category + "_RatingKPIIndicator");
+
+
+          record.MinDeliveryInDays = eval("values." + values.Category + "_MinDeliveryInDays");
+          record.MaxDeliveryInDays = eval("values." + values.Category + "_MaxDeliveryInDays");
+          record.DeliveryWeightage = eval("values." + values.Category + "_DeliveryWeightage");
+          record.DeliveryKPIIndicator = eval("values." + values.Category + "_DeliveryKPIIndicator");
+
+          record.MinOnTimeFullfillment = eval("values." + values.Category + "_MinOnTimeFulfillment");
+          record.MaxOnTimeFullfillment = eval("values." + values.Category + "_MaxOnTimeFulfillment");
+          record.FulfillmentWeightage = eval("values." + values.Category + "_FulfillmentWeightage");
+          record.FulfillmentKPIIndicator = eval("values." + values.Category + "_FulfillmentKPIIndicator");
+
+          record.MinNumberOfEscalations = eval("values." + values.Category + "_MinNumberOfEscalations");
+          record.MaxNumberOfEscalations = eval("values." + values.Category + "_MaxNumberOfEscalations");
+          record.EscalationsWeightage = eval("values." + values.Category + "_EscalationsWeightage");
+          record.EscalationsKPIIndicator = eval("values." + values.Category + "_EscalationsKPIIndicator");
+
+          paramsObj.record = record;
+          console.log(JSON.stringify(paramsObj));
+          alert(JSON.stringify(paramsObj));
+          debugger
+          var data = JSON.parse(httpGet("https://chart-api-6httuqd2wq-uc.a.run.app?dbParams=" + JSON.stringify(paramsObj)));
+          debugger
+          alert(JSON.stringify(data))
+          grid = new ej.grids.Grid({
+            dataSource: data,
+            allowSelection: true,
+            allowFiltering: true,
+            allowSorting: true,
+            allowPaging: true,
+            allowTextWrap: true,
+            enableVirtualization: true,
+            toolbar: ['Search'],
+            filterSettings: { type: 'Menu' },
+            selectionSettings: { persistSelection: true, type: "Multiple", checkboxOnly: true },
+            enableHover: false,
+            enableHeaderFocus: true,
+            pageSettings: { pageCount: 4, pageSizes: true },
+            height: 300,
+            rowHeight: 40,
+            columns: [
+              { field: 'SupplierID', headerText: 'ID', width: 93 },
+              { field: 'SupplierName', headerText: 'Supplier Name', template: "#template" },
+              { field: 'Category', headerText: 'Category' },
+              { field: 'Service', headerText: 'Service' },
+              { field: 'AvgCostInUSD', headerText: 'AvgCostInUSD', visible: false },
+              { field: 'Rating', headerText: 'Rating', visible: false },
+              { field: 'AverageDeliveryInDays', headerText: 'AverageDeliveryInDays', visible: false },
+              { field: 'OnTimeFullfillment', headerText: 'OnTimeFullfillment', visible: false },
+              { field: 'NumberOfEscalations', headerText: 'NumberOfEscalations', visible: false },
+              { field: 'GreenhouseGasEmission', headerText: 'Greenhouse Gas Emission%' },
+              { field: 'WaterUse', headerText: 'Water Use%' },
+              { field: 'EnergyConsumption', headerText: 'Energy Consumption%' },
+              { field: 'RecyclingRate', headerText: 'Recycling Rate%' },
+              { field: 'CarbonOffsetting', headerText: 'Carbon Offsetting%' },
+              { field: 'Score', headerText: 'Score' },
+              {
+                headerText: 'Action', width: 93,
+                commands: [{ type: 'Show Dashboard', buttonOption: { iconCss: ' e-icons e-eye', cssClass: 'e-flat' } }, { type: 'Disburse Payout', buttonOption: { iconCss: ' e-icons e-hyperlink-open', cssClass: 'e-flat' } }]
+              }
+            ],
+            commandClick: (args) => {
+              debugger
+              if (args.commandColumn.type == "Disburse Payout") {
+                //handleUpdateFeedback();
+
+                var hash = `${args.rowData.Score}`;
+                var id = `${args.rowData.SupplierID}`;
+                var supplierName = `${args.rowData.SupplierName}`;
+                localStorage.setItem("search_id", id);
+                localStorage.setItem("search_name", supplierName);
+                if (hash >= 50) {
+                  window.open("Supplier360_DisbursePayout.html", "_blank");
+                }
+                else {
+                  window.open("Supplier360_MakePayment.html", "_blank");
+                }
+
+              }
+              else {
+                var id = `${args.rowData.SupplierID}`;
+                var service = `${args.rowData.Service}`;
+                console.log(service);
+                localStorage.setItem("search_id", id);
+                localStorage.setItem("search_service", service);
+                showMyModalSetTitle(id + " - " + service);
+              }
+            }
+          });
+
+          grid.appendTo('#Grid');
+          $("#filtergridlist").show();
+          $("#spinner").hide();
+        }
+      }
+    });
+
+    let supplierParams = ["AvgCostInUSD", "Rating", "AverageDeliveryInDays", "OnTimeFullfillment", "NumberOfEscalations"];
+    let climateParams = ["Greenhouse GasEmission%", "Water Use%", "Energy Consumption%", "Recycling Rate%", "Carbon Offsetting%"];
+    $("#filtergridlist").change(() => {
+      var selectedFilter = $("#filtergridlist").val();
+      if (selectedFilter == "supplier") {
+        climateParams.forEach(x => {
+          grid.showHider.hide(x, 'headerText');
+        });
+        supplierParams.forEach(x => {
+          grid.showHider.show(x, 'headerText');
+        });
+      }
+      else if (selectedFilter == "climate") {
+        supplierParams.forEach(x => {
+          grid.showHider.hide(x, 'headerText');
+        });
+        climateParams.forEach(x => {
+          grid.showHider.show(x, 'headerText');
+        });
+      }
+    });
+
+  </script>
+ 
+</body>
+
+</html>
