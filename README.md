@@ -18,4 +18,4 @@ We will leverage a full set of Rapyd API in developing a high-quality solution a
 
 The Data: We are loading 1 Million Suppliers in eight major supply chain industries with various performance parameters like plastic usage, water usage, carbon offsetting, waste disposal, recycling, etc. over 5 years
 
-Before I go to the demo, this is the technical architecture where We have extended the supplier performance metrics system to include sustainability metrics along with performance metrics. These metrics will enable our application supplier360 to pay incentives or collect disciplinary amounts based on a threshold sustainability score with is automatically calculated by taking the mean of the weighted average of all the climate metrics over the past years. 
+We have extended the supplier performance metrics system to include sustainability metrics along with performance metrics. These metrics will enable our application supplier360 to pay incentives or collect disciplinary amounts based on a threshold sustainability score with is automatically calculated by taking the mean of the weighted average of all the climate metrics over the past years. 
